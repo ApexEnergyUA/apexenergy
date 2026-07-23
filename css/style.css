@@ -1527,7 +1527,8 @@ h1, h2, h3, h4 {
   }
 
   .hero-banner {
-    min-height: auto;
+    min-height: 100vh;
+    min-height: 100lvh;
   }
 
   .hero-banner__content {
