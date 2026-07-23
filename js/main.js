@@ -25,16 +25,39 @@
   }
 
   if (menuToggle && header) {
+    const closeMenu = () => {
+      header.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Відкрити меню');
+    };
+
     menuToggle.addEventListener('click', () => {
       const isOpen = header.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.setAttribute('aria-label', isOpen ? 'Закрити меню' : 'Відкрити меню');
     });
 
     document.querySelectorAll('.site-nav__link').forEach(link => {
-      link.addEventListener('click', () => {
-        header.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeMenu();
+        menuToggle.focus();
+      }
+    });
+
+    document.addEventListener('click', event => {
+      if (header.classList.contains('is-open') && !header.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        closeMenu();
+      }
     });
   }
 
